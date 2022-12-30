@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Voice Control</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            media="screen"
-            href="./styles/styles.css"
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Voice Control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="./styles/styles.css"
+    />
+  </head>
+  <body>
+    <div class="level">
+      <div>Practice</div>
+      <img
+        src="./assets/microphone.svg"
+        alt="mic"
+        sizes="30px"
+        id="microphone"
+      />
+    </div>
+    <span class="transcription" id="transcription"></span>
+    <div class="container">
+      <canvas id="game" class="container__game"> </canvas>
+    </div>
+
+    <div class="controlContainer">
+      <div class="controlContainer__buttons">
+        <button class="controlContainer__buttons__start" id="start">
+          Start
+        </button>
+        <button class="controlContainer__buttons__stop" id="stop">Stop</button>
+      </div>
+      <div class="controlContainer__checkbox">
+        <input
+          type="checkbox"
+          name="continous"
+          id="continous"
+          class="controlContainer__checkbox__continous"
         />
-    </head>
-    <body>
-        <div class="level">Level 1</div>
-        <span class="transcription" id="transcription"></span>
-        <div class="container">
-            <canvas id="game" class="container__game"> </canvas>
-        </div>
-        <div class="buttons">
-            <button class="buttons__start" id="start">Start</button>
-            <button class="buttons__stop" id="stop">Stop</button>
-        </div>
-    </body>
-    <script src="./scripts/audioCapture.js"></script>
-    <script src="./scripts/game.js"></script>
+        <label
+          class="controlContainer__checkbox__continous"
+          for="continous"
+          id="labelContionus"
+          >Continous</label
+        >
+      </div>
+    </div>
+  </body>
+  <script src="./scripts/audioCapture.js"></script>
+  <script src="./scripts/game.js"></script>
 </html>
