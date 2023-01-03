@@ -12,6 +12,23 @@
   align-items: center;
   margin-top: 15px;
 }
+.controlContainer__beginBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  text-decoration: none;
+  padding: 10px;
+  background-color: green;
+  margin-right: 15px;
+  width: 100px;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+.controlContainer__beginBtn:disabled {
+  opacity: 0.6;
+}
 .controlContainer__buttons {
   display: flex;
   align-items: center;

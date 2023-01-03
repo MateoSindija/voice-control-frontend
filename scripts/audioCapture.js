@@ -20,10 +20,11 @@ if ("webkitSpeechRecognition" in window) {
       if (!event.results[i].isFinal) {
         transcript = event.results[i][0].transcript;
       }
+
       if (isContinous) {
-        characterMovementContinous(transcript);
+        characterMovementContinous(transcript.trim());
       } else {
-        characterMovementByStep(transcript);
+        characterMovementByStep(transcript.trim());
       }
 
       document.querySelector("#transcription").innerHTML = transcript;
@@ -33,15 +34,18 @@ if ("webkitSpeechRecognition" in window) {
 
   // Set the onClick property of the start button
   document.querySelector("#start").onclick = () => {
-    checkboxContinous.disabled = true;
-    isContinous = checkboxContinous.checked;
+    //if checkbox exist check it
+    if (checkboxContinous) {
+      checkboxContinous.disabled = true;
+      isContinous = checkboxContinous.checked;
+    }
     // Start the Speech Recognition
     speechRecognition.start();
 
     microphoneSvg.style.display = "block";
 
     document.querySelector("#start").disabled = true;
-    labelContionus.style.color = "grey";
+    if (labelContionus) labelContionus.style.color = "grey";
   };
   // Set the onClick property of the stop button
   document.querySelector("#stop").onclick = () => {
@@ -50,10 +54,11 @@ if ("webkitSpeechRecognition" in window) {
     character.x = 23;
     character.y = 577;
 
-    checkboxContinous.disabled = false;
+    if (checkboxContinous) checkboxContinous.disabled = false;
+
     document.querySelector("#start").disabled = false;
     microphoneSvg.style.display = "none";
-    labelContionus.style.color = "black";
+    if (labelContionus) labelContionus.style.color = "black";
     clearAllIntervals();
   };
 } else {

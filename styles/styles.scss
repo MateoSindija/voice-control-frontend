@@ -13,6 +13,26 @@
   align-items: center;
   margin-top: 15px;
 
+  &__beginBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: auto;
+    text-decoration: none;
+    padding: 10px;
+    background-color: green;
+    margin-right: 15px;
+    width: 100px;
+    color: white;
+    cursor: pointer;
+    border: none;
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+
   &__buttons {
     display: flex;
     align-items: center;
