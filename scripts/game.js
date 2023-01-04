@@ -1,10 +1,6 @@
-const CHAR_MOVE_MS = 300;
-const MOVE_T_L = 20;
-const MOVE_B_R = 10;
-const CIRCLE_RADIUS = 20;
+const CHAR_MOVE_MS = 200;
 
 let levelData;
-
 let jsonUrl = "";
 
 let canvas = document.getElementById("game");
@@ -20,20 +16,22 @@ if (!url.includes("level")) {
   jsonUrl = "../json/practice.json";
 } else if (url.includes("level1")) {
   jsonUrl = "../json/level1.json";
+} else if (url.includes("level2")) {
+  jsonUrl = "../json/level2.json";
 }
 
 const character = {
   x: 23,
   y: 577,
-  size: 10,
-  speed: 20,
+  radius: 20,
+  speed: 25,
 };
 
 const borders = {
-  left: 0,
-  right: canvas.width - character.size,
-  top: 0,
-  bottom: canvas.height - character.size,
+  left: 0 + character.radius,
+  right: canvas.width - character.radius,
+  top: 0 + character.radius,
+  bottom: canvas.height - character.radius,
 };
 
 fetch(jsonUrl)
@@ -42,9 +40,9 @@ fetch(jsonUrl)
     levelData = json;
 
     if (levelData.type === "step") {
-      isContinous = false;
-    } else if (levelData.type === "contionus") {
-      isContinous = true;
+      iscontinuous = false;
+    } else if (levelData.type === "continuous") {
+      iscontinuous = true;
     }
 
     const finish = {
@@ -57,23 +55,24 @@ fetch(jsonUrl)
       let distX = Math.abs(character.x - finish.x - finish.size / 2);
       let distY = Math.abs(character.y - finish.y - finish.size / 2);
 
-      if (distX > finish.size / 2 + CIRCLE_RADIUS / 2) {
+      if (distX > finish.size / 2 + character.radius) {
         return false;
       }
-      if (distY > finish.size / 2 + CIRCLE_RADIUS / 2) {
+      if (distY > finish.size / 2 + character.radius) {
         return false;
       }
 
       if (distX <= finish.size / 2) {
         return true;
       }
+
       if (distY <= finish.size / 2) {
         return true;
       }
 
       let dx = distX - finish.size / 2;
       let dy = distY - finish.size / 2;
-      return dx * dx + dy * dy <= ((CIRCLE_RADIUS / 2) * CIRCLE_RADIUS) / 2;
+      return dx * dx + dy * dy <= character.radius * character.radius;
     };
 
     const update = () => {
@@ -81,24 +80,27 @@ fetch(jsonUrl)
 
       // Clear the canvas
       circle.clearRect(0, 0, canvas.width, canvas.height);
-      finishCtx.clearRect(0, 0, canvas.width, canvas.height);
 
       finishCtx.fillStyle = "blue";
       finishCtx.fillRect(finish.x, finish.y, finish.size, finish.size);
 
       // Draw the character
       circle.beginPath();
-      circle.arc(character.x, character.y, CIRCLE_RADIUS, 0, 2 * Math.PI);
+      circle.arc(character.x, character.y, character.radius, 0, 2 * Math.PI);
       circle.fillStyle = "yellow";
       circle.strokeStyle = "red";
       circle.stroke();
       circle.fill();
 
       if (isCollision()) {
-        document.querySelector("#stop").click();
+        if (nextBtn) nextBtn.disabled = false;
         clearAllIntervals();
-        alert("You won");
-        return;
+
+        //alert may run faster than javascript so put it in settimeout to ensure order of execution
+        setTimeout(() => {
+          alert("You won");
+          document.querySelector("#stop").click();
+        }, 10);
       }
     };
 
@@ -114,60 +116,36 @@ const clearAllIntervals = () => {
 
 const characterMovementByStep = (voiceCommand) => {
   if (voiceCommand === "up") {
-    character.y = Math.max(
-      character.y - character.speed,
-      borders.top + MOVE_T_L
-    );
+    character.y = Math.max(character.y - character.speed, borders.top);
   } else if (voiceCommand === "down") {
-    character.y = Math.min(
-      character.y + character.speed,
-      borders.bottom - MOVE_B_R
-    );
+    character.y = Math.min(character.y + character.speed, borders.bottom);
   } else if (voiceCommand === "left") {
-    character.x = Math.max(
-      character.x - character.speed,
-      borders.left + MOVE_T_L
-    );
+    character.x = Math.max(character.x - character.speed, borders.left);
   } else if (voiceCommand === "right") {
-    character.x = Math.min(
-      character.x + character.speed,
-      borders.right - MOVE_B_R
-    );
+    character.x = Math.min(character.x + character.speed, borders.right);
   }
 };
 
-const characterMovementContinous = (voiceCommand) => {
+const characterMovementcontinuous = (voiceCommand) => {
   if (voiceCommand === "up") {
     clearAllIntervals();
     setInterval(() => {
-      character.y = Math.max(
-        character.y - character.speed,
-        borders.top + MOVE_T_L
-      );
+      character.y = Math.max(character.y - character.speed, borders.top);
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "down") {
     clearAllIntervals();
     setInterval(() => {
-      character.y = Math.min(
-        character.y + character.speed,
-        borders.bottom - MOVE_B_R
-      );
+      character.y = Math.min(character.y + character.speed, borders.bottom);
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "left") {
     clearAllIntervals();
     setInterval(() => {
-      character.x = Math.max(
-        character.x - character.speed,
-        borders.left + MOVE_T_L
-      );
+      character.x = Math.max(character.x - character.speed, borders.left);
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "right") {
     clearAllIntervals();
     setInterval(() => {
-      character.x = Math.min(
-        character.x + character.speed,
-        borders.right - MOVE_B_R
-      );
+      character.x = Math.min(character.x + character.speed, borders.right);
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "stop") {
     clearAllIntervals();

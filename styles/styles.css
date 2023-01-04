@@ -10,17 +10,25 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   margin-top: 15px;
+  height: 30px;
+}
+.controlContainer__timer {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  z-index: -1;
+  font-size: 20px;
+  position: fixed;
 }
 .controlContainer__beginBtn {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: auto;
   text-decoration: none;
   padding: 10px;
   background-color: green;
-  margin-right: 15px;
   width: 100px;
   color: white;
   cursor: pointer;
@@ -32,6 +40,15 @@
 .controlContainer__buttons {
   display: flex;
   align-items: center;
+}
+.controlContainer__buttons__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+}
+.controlContainer__buttons__checkbox__continuous:disabled {
+  color: grey;
 }
 .controlContainer__buttons__start {
   padding: 10px;
@@ -53,15 +70,6 @@
   cursor: pointer;
   border: none;
 }
-.controlContainer__checkbox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 15px;
-}
-.controlContainer__checkbox__continous:disabled {
-  color: grey;
-}
 
 .transcription {
   display: flex;
@@ -78,10 +86,12 @@
   font-size: 25px;
   display: flex;
   justify-content: center;
+  height: 30px;
 }
 .level div {
   display: flex;
   justify-content: center;
+  position: absolute;
 }
 .level img {
   display: flex;

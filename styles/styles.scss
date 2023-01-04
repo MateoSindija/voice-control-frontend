@@ -11,18 +11,27 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   margin-top: 15px;
+  height: 30px;
+
+  &__timer {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    z-index: -1;
+    font-size: 20px;
+    position: fixed;
+  }
 
   &__beginBtn {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    margin-left: auto;
     text-decoration: none;
     padding: 10px;
     background-color: green;
-    margin-right: 15px;
     width: 100px;
     color: white;
     cursor: pointer;
@@ -36,6 +45,20 @@
   &__buttons {
     display: flex;
     align-items: center;
+
+    &__checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-left: 15px;
+
+      &__continuous {
+        &:disabled {
+          color: grey;
+        }
+      }
+    }
 
     &__start {
       padding: 10px;
@@ -60,20 +83,6 @@
       border: none;
     }
   }
-
-  &__checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-left: 15px;
-
-    &__continous {
-      &:disabled {
-        color: grey;
-      }
-    }
-  }
 }
 
 .transcription {
@@ -91,10 +100,12 @@
   font-size: 25px;
   display: flex;
   justify-content: center;
+  height: 30px;
 
   div {
     display: flex;
     justify-content: center;
+    position: absolute;
   }
 
   img {
