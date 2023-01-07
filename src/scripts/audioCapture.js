@@ -1,13 +1,28 @@
+import {
+  characterMovementByStep,
+  characterMovementcontinuous,
+  character,
+  clearAllIntervals,
+  isContinuous,
+  timer,
+  handleCountinousChange,
+  isOver,
+  setIsMovementByStepCalled,
+  setIsOver,
+} from "../scripts/game.js";
+
+import { db, collection, addDoc } from "./firebase.js";
+
+const message = document.querySelector("#message");
 let transcript = "";
-let isContinuous = false;
 const checkboxcontinuous = document.querySelector("#continuous");
 const microphoneSvg = document.querySelector("#microphone");
 const labelContinuous = document.querySelector("#labelContinuous");
 const beginButton = document.querySelector("#begin");
 const timerDiv = document.querySelector("#timer");
 const nextBtn = document.querySelector("#next");
-
-let timer = 1;
+const url = window.location.href;
+const currentSubjectName = localStorage.getItem("testSubject");
 
 microphoneSvg.style.display = "none";
 
@@ -17,11 +32,11 @@ if (beginButton) {
   beginButton.onclick = () => {
     const userName = window.prompt("Your name");
 
-    localStorage.setItem("voiceUser", userName);
+    localStorage.setItem("testSubject", userName);
 
     if (!userName) return;
 
-    location.href = "../levels/level1.html";
+    location.href = "/src/levels/level1.html";
   };
 }
 
@@ -42,7 +57,7 @@ if ("webkitSpeechRecognition" in window) {
         transcript = "";
       }
 
-      if (iscontinuous) {
+      if (isContinuous) {
         characterMovementcontinuous(transcript.trim());
       } else {
         characterMovementByStep(transcript.trim());
@@ -58,19 +73,15 @@ if ("webkitSpeechRecognition" in window) {
     //if checkbox exist check it
     if (checkboxcontinuous) {
       checkboxcontinuous.disabled = true;
-      iscontinuous = checkboxcontinuous.checked;
+      handleCountinousChange(checkboxcontinuous.checked);
     }
+
+    setIsOver();
+
+    message.style.visibility = "hidden";
 
     // Start the Speech Recognition
     speechRecognition.start();
-
-    if (url.includes("level")) {
-      setInterval(() => {
-        timer = Math.round((timer + 0.1) * 100) / 100;
-
-        timerDiv.innerHTML = timer + " s";
-      }, 100);
-    }
 
     microphoneSvg.style.display = "block";
 
@@ -78,14 +89,22 @@ if ("webkitSpeechRecognition" in window) {
     if (labelContinuous) labelContinuous.style.color = "grey";
   };
   // Set the onClick property of the stop button
-  document.querySelector("#stop").onclick = () => {
+  document.querySelector("#stop").onclick = async () => {
     // Stop the Speech Recognition
     speechRecognition.stop();
     character.x = 23;
     character.y = 577;
 
+    setIsMovementByStepCalled();
+
     if (checkboxcontinuous) checkboxcontinuous.disabled = false;
-    if (timerDiv) timer = 0;
+    if (timerDiv && url.includes("level") && currentSubjectName && isOver) {
+      await addDoc(collection(db, "test-results"), {
+        userName: currentSubjectName,
+        timer: timer,
+        level: url,
+      });
+    }
 
     document.querySelector("#start").disabled = false;
     microphoneSvg.style.display = "none";

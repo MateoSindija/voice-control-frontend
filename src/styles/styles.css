@@ -1,9 +1,17 @@
 .container {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 .container__game {
   border: 1px solid black;
+}
+.container__message {
+  position: absolute;
+  color: green;
+  font-weight: 700;
+  font-size: 40px;
+  visibility: hidden;
 }
 
 .controlContainer {

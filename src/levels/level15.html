@@ -14,7 +14,7 @@
   </head>
   <body>
     <div id="level" class="level">
-      <div>Level 2 continuous</div>
+      <div>Level 15 continuous</div>
       <img
         src="../assets/microphone.svg"
         alt="mic"
@@ -24,6 +24,7 @@
     </div>
     <span class="transcription" id="transcription"></span>
     <div class="container">
+      <div class="container__message" id="message">You won!</div>
       <canvas id="game" class="container__game"> </canvas>
     </div>
 
@@ -37,7 +38,7 @@
 
       <div class="controlContainer__timer" id="timer"></div>
       <button
-        onclick="location.href = '../levels/level2.html';"
+        onclick="location.href = '../levels/level16.html';"
         class="controlContainer__beginBtn"
         id="next"
       >
@@ -45,6 +46,7 @@
       </button>
     </div>
   </body>
-  <script src="../scripts/audioCapture.js"></script>
-  <script src="../scripts/game.js"></script>
+  <script type="module" src="../scripts/firebase.js"></script>
+  <script type="module" src="../scripts/audioCapture.js"></script>
+  <script type="module" src="../scripts/game.js"></script>
 </html>

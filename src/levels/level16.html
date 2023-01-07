@@ -9,14 +9,14 @@
       rel="stylesheet"
       type="text/css"
       media="screen"
-      href="./src/styles/styles.css"
+      href="../styles/styles.css"
     />
   </head>
   <body>
     <div id="level" class="level">
-      <div>Practice</div>
+      <div>Level 16 step</div>
       <img
-        src="./src/assets/microphone.svg"
+        src="../assets/microphone.svg"
         alt="mic"
         sizes="30px"
         id="microphone"
@@ -34,26 +34,19 @@
           Start
         </button>
         <button class="controlContainer__buttons__stop" id="stop">Stop</button>
-        <div class="controlContainer__buttons__checkbox">
-          <input
-            type="checkbox"
-            name="continuous"
-            id="continuous"
-            class="controlContainer__buttons__checkbox__continuous"
-          />
-          <label
-            class="controlContainer__buttons__checkbox__continuous"
-            for="continuous"
-            id="labelContinuous"
-            >Continuous</label
-          >
-        </div>
       </div>
 
-      <button id="begin" class="controlContainer__beginBtn">Begin</button>
+      <div class="controlContainer__timer" id="timer"></div>
+      <button
+        onclick="location.href = '../levels/level2.html';"
+        class="controlContainer__beginBtn"
+        id="next"
+      >
+        End
+      </button>
     </div>
   </body>
-  <script type="module" src="./src/scripts/firebase.js"></script>
-  <script type="module" src="./src/scripts/audioCapture.js"></script>
-  <script type="module" src="./src/scripts/game.js"></script>
+  <script type="module" src="../scripts/firebase.js"></script>
+  <script type="module" src="../scripts/audioCapture.js"></script>
+  <script type="module" src="../scripts/game.js"></script>
 </html>

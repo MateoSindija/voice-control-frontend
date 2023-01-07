@@ -1,9 +1,18 @@
 .container {
   display: flex;
   justify-content: center;
+  position: relative;
 
   &__game {
     border: 1px solid black;
+  }
+
+  &__message {
+    position: absolute;
+    color: green;
+    font-weight: 700;
+    font-size: 40px;
+    visibility: hidden;
   }
 }
 
