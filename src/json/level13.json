@@ -1,5 +1,6 @@
 {
   "x": 100,
   "y": 200,
-  "type": "continuous"
+  "type": "continuous",
+  "size": 100
 }

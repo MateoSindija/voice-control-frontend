@@ -12,6 +12,8 @@ const nextBtn = document.querySelector("#next");
 let canvas = document.getElementById("game");
 const message = document.querySelector("#message");
 let isMovementByStepCalled = true;
+let characterIsMoving = false;
+let voiceCommandIsStop = false;
 
 canvas.width = 1500;
 canvas.height = 600;
@@ -56,10 +58,16 @@ if (!url.includes("level")) {
 }
 
 export const character = {
-  x: 23,
+  x: 20,
   y: 577,
-  radius: 20,
+  radius: 18,
   speed: 55,
+};
+
+const finish = {
+  x: 100,
+  y: 100,
+  size: 70,
 };
 
 const borders = {
@@ -73,18 +81,16 @@ fetch(jsonUrl)
   .then((response) => response.json())
   .then((json) => {
     levelData = json;
-    console.log(levelData);
+
     if (levelData.type === "step") {
       isContinuous = false;
     } else if (levelData.type === "continuous") {
       isContinuous = true;
     }
 
-    const finish = {
-      x: levelData.x,
-      y: levelData.y,
-      size: 100,
-    };
+    finish.x = levelData.x;
+    finish.y = levelData.y;
+    finish.size = levelData.size;
 
     const isCollision = () => {
       let distX = Math.abs(character.x - finish.x - finish.size / 2);
@@ -110,7 +116,7 @@ fetch(jsonUrl)
       return dx * dx + dy * dy <= character.radius * character.radius;
     };
 
-    const update = () => {
+    const update = async () => {
       requestAnimationFrame(update);
 
       // Clear the canvas
@@ -127,14 +133,42 @@ fetch(jsonUrl)
       circle.stroke();
       circle.fill();
 
-      if (isCollision()) {
+      //character is at border and command is not stop
+      if (character.y === borders.bottom) {
+        characterIsMoving = false;
+      } else if (character.x === borders.left) {
+        characterIsMoving = false;
+      } else if (character.y === borders.top) {
+        characterIsMoving = false;
+      } else if (character.x === borders.right) {
+        characterIsMoving = false;
+      } else if (!voiceCommandIsStop) {
+        characterIsMoving = true;
+      }
+
+      //handle continous end
+      if (isCollision() && isContinuous && !characterIsMoving) {
         if (nextBtn) nextBtn.disabled = false;
         clearAllIntervals();
 
         message.style.visibility = "visible";
         isOver = true;
         isMovementByStepCalled = true;
-        document.querySelector("#stop").click();
+        await document.querySelector("#stop").click();
+        timer = 0;
+        voiceCommandIsStop = false;
+        characterIsMoving = false;
+      }
+
+      //handle step end
+      if (isCollision() && !isOver && !isContinuous) {
+        if (nextBtn) nextBtn.disabled = false;
+        clearAllIntervals();
+
+        message.style.visibility = "visible";
+        isOver = true;
+        isMovementByStepCalled = true;
+        await document.querySelector("#stop").click();
         timer = 0;
       }
     };
@@ -146,7 +180,12 @@ fetch(jsonUrl)
 export const clearAllIntervals = () => {
   var killId = setTimeout(() => {
     for (let i = killId; i > 0; i--) clearInterval(i);
-  }, 6);
+  }, 5);
+};
+
+export const setCharacterAtStart = () => {
+  character.x = 20;
+  character.y = 577;
 };
 
 export const setIsOver = () => {
@@ -157,14 +196,16 @@ export const setIsMovementByStepCalled = () => {
   if (url.includes("level") && !isContinuous) {
     clearAllIntervals();
     isMovementByStepCalled = true;
-    timer = 0;
-
-    timerDiv.innerHTML = "";
   }
 };
 
 const movementByStepTimer = (isMovementByStepCalled) => {
-  if (url.includes("level") && !isContinuous && isMovementByStepCalled) {
+  if (
+    url.includes("level") &&
+    !isContinuous &&
+    isMovementByStepCalled &&
+    !isOver
+  ) {
     setInterval(() => {
       timer = Math.round((timer + 0.1) * 100) / 100;
 
@@ -174,8 +215,7 @@ const movementByStepTimer = (isMovementByStepCalled) => {
 };
 
 export const characterMovementByStep = (voiceCommand) => {
-  character.speed = 55;
-
+  character.speed = 20;
   movementByStepTimer(isMovementByStepCalled);
 
   isMovementByStepCalled = false;
@@ -197,6 +237,10 @@ const incrementTimerForContinous = () => {
   if (timerDiv) timerDiv.innerHTML = timer + " s";
 };
 
+export const resetTimer = () => {
+  timer = 0;
+};
+
 export const handleCountinousChange = (isContinuousChecked) => {
   isContinuous = isContinuousChecked;
 };
@@ -204,31 +248,54 @@ export const handleCountinousChange = (isContinuousChecked) => {
 export const characterMovementcontinuous = (voiceCommand) => {
   character.speed = 10;
 
+  console.log(voiceCommand);
+
   if (voiceCommand === "up") {
+    voiceCommandIsStop = false;
     clearAllIntervals();
     setInterval(() => {
       character.y = Math.max(character.y - character.speed, borders.top);
+
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "down") {
+    voiceCommandIsStop = false;
+
     clearAllIntervals();
+
     setInterval(() => {
       character.y = Math.min(character.y + character.speed, borders.bottom);
+
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "left") {
+    voiceCommandIsStop = false;
+
     clearAllIntervals();
+
     setInterval(() => {
       character.x = Math.max(character.x - character.speed, borders.left);
+
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "right") {
+    voiceCommandIsStop = false;
+
     clearAllIntervals();
+
     setInterval(() => {
       character.x = Math.min(character.x + character.speed, borders.right);
+
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "stop") {
+    voiceCommandIsStop = true;
+    characterIsMoving = false;
+
     clearAllIntervals();
+
+    setInterval(() => {
+      incrementTimerForContinous();
+    }, [CHAR_MOVE_MS]);
   }
 };

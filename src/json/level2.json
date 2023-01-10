@@ -1,5 +1,6 @@
 {
   "x": 1100,
   "y": 400,
-  "type": "step"
+  "type": "step",
+  "size": 100
 }

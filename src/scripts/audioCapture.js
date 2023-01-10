@@ -9,6 +9,8 @@ import {
   isOver,
   setIsMovementByStepCalled,
   setIsOver,
+  setCharacterAtStart,
+  resetTimer,
 } from "../scripts/game.js";
 
 import { db, collection, addDoc } from "./firebase.js";
@@ -23,6 +25,7 @@ const timerDiv = document.querySelector("#timer");
 const nextBtn = document.querySelector("#next");
 const url = window.location.href;
 const currentSubjectName = localStorage.getItem("testSubject");
+let wordCounter = 0;
 
 microphoneSvg.style.display = "none";
 
@@ -53,17 +56,27 @@ if ("webkitSpeechRecognition" in window) {
     for (let i = event.resultIndex; i < event.results.length; ++i) {
       if (!event.results[i].isFinal) {
         transcript = event.results[i][0].transcript;
-      } else {
-        transcript = "";
+
+        if (
+          transcript.trim() === "down" ||
+          transcript.trim() === "up" ||
+          transcript.trim() === "left" ||
+          transcript.trim() === "right" ||
+          transcript.trim() === "stop"
+        )
+          wordCounter++;
       }
 
       if (isContinuous) {
-        characterMovementcontinuous(transcript.trim());
+        characterMovementcontinuous(transcript.trim().split(" ").pop());
       } else {
-        characterMovementByStep(transcript.trim());
+        characterMovementByStep(transcript.trim().split(" ").pop());
       }
 
-      document.querySelector("#transcription").innerHTML = transcript;
+      document.querySelector("#transcription").innerHTML = transcript
+        .trim()
+        .split(" ")
+        .pop();
       transcript = "";
     }
   };
@@ -76,6 +89,7 @@ if ("webkitSpeechRecognition" in window) {
       handleCountinousChange(checkboxcontinuous.checked);
     }
 
+    setCharacterAtStart();
     setIsOver();
 
     message.style.visibility = "hidden";
@@ -92,24 +106,34 @@ if ("webkitSpeechRecognition" in window) {
   document.querySelector("#stop").onclick = async () => {
     // Stop the Speech Recognition
     speechRecognition.stop();
-    character.x = 23;
-    character.y = 577;
+    clearAllIntervals();
 
+    if (!isOver) {
+      setCharacterAtStart();
+    }
     setIsMovementByStepCalled();
 
     if (checkboxcontinuous) checkboxcontinuous.disabled = false;
     if (timerDiv && url.includes("level") && currentSubjectName && isOver) {
-      await addDoc(collection(db, "test-results"), {
-        userName: currentSubjectName,
-        timer: timer,
-        level: url,
-      });
+      try {
+        await addDoc(collection(db, "test-results"), {
+          userName: currentSubjectName,
+          timer: timer,
+          level: url,
+          wordCounter: wordCounter,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
+    wordCounter = 0;
+    resetTimer();
+    if (timerDiv) timerDiv.innerHTML = "";
     document.querySelector("#start").disabled = false;
     microphoneSvg.style.display = "none";
     if (labelContinuous) labelContinuous.style.color = "black";
-    clearAllIntervals();
+    console.log("tu");
   };
 } else {
   console.log("Speech Recognition Not Available");
