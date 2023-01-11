@@ -13,7 +13,7 @@ let canvas = document.getElementById("game");
 const message = document.querySelector("#message");
 let isMovementByStepCalled = true;
 let characterIsMoving = false;
-let voiceCommandIsStop = false;
+let currentVoiceCommand = "";
 
 canvas.width = 1500;
 canvas.height = 600;
@@ -134,20 +134,28 @@ fetch(jsonUrl)
       circle.fill();
 
       //character is at border and command is not stop
-      if (character.y === borders.bottom) {
+      if (character.y === borders.bottom && currentVoiceCommand === "down") {
         characterIsMoving = false;
-      } else if (character.x === borders.left) {
+      } else if (
+        (character.x === borders.left && currentVoiceCommand === "left") ||
+        (character.x === borders.left &&
+          (character.y === borders.bottom || character.y === borders.top))
+      ) {
         characterIsMoving = false;
-      } else if (character.y === borders.top) {
+      } else if (character.y === borders.top && currentVoiceCommand === "top") {
         characterIsMoving = false;
-      } else if (character.x === borders.right) {
+      } else if (
+        (character.x === borders.right && currentVoiceCommand === "right") ||
+        (character.x === borders.right &&
+          (character.y === borders.bottom || character.y === borders.top))
+      ) {
         characterIsMoving = false;
-      } else if (!voiceCommandIsStop) {
+      } else if (currentVoiceCommand !== "stop" && currentVoiceCommand !== "") {
         characterIsMoving = true;
       }
 
       //handle continous end
-      if (isCollision() && isContinuous && !characterIsMoving) {
+      if (isCollision() && isContinuous && !characterIsMoving && !isOver) {
         if (nextBtn) nextBtn.disabled = false;
         clearAllIntervals();
 
@@ -156,7 +164,6 @@ fetch(jsonUrl)
         isMovementByStepCalled = true;
         await document.querySelector("#stop").click();
         timer = 0;
-        voiceCommandIsStop = false;
         characterIsMoving = false;
       }
 
@@ -217,6 +224,7 @@ const movementByStepTimer = (isMovementByStepCalled) => {
 export const characterMovementByStep = (voiceCommand) => {
   character.speed = 20;
   movementByStepTimer(isMovementByStepCalled);
+  currentVoiceCommand = voiceCommand;
 
   isMovementByStepCalled = false;
 
@@ -248,10 +256,11 @@ export const handleCountinousChange = (isContinuousChecked) => {
 export const characterMovementcontinuous = (voiceCommand) => {
   character.speed = 10;
 
-  console.log(voiceCommand);
+  currentVoiceCommand = voiceCommand;
 
   if (voiceCommand === "up") {
-    voiceCommandIsStop = false;
+    currentVoiceCommand = voiceCommand;
+
     clearAllIntervals();
     setInterval(() => {
       character.y = Math.max(character.y - character.speed, borders.top);
@@ -259,8 +268,6 @@ export const characterMovementcontinuous = (voiceCommand) => {
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "down") {
-    voiceCommandIsStop = false;
-
     clearAllIntervals();
 
     setInterval(() => {
@@ -269,8 +276,6 @@ export const characterMovementcontinuous = (voiceCommand) => {
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "left") {
-    voiceCommandIsStop = false;
-
     clearAllIntervals();
 
     setInterval(() => {
@@ -279,8 +284,6 @@ export const characterMovementcontinuous = (voiceCommand) => {
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "right") {
-    voiceCommandIsStop = false;
-
     clearAllIntervals();
 
     setInterval(() => {
@@ -289,7 +292,6 @@ export const characterMovementcontinuous = (voiceCommand) => {
       incrementTimerForContinous();
     }, [CHAR_MOVE_MS]);
   } else if (voiceCommand === "stop") {
-    voiceCommandIsStop = true;
     characterIsMoving = false;
 
     clearAllIntervals();
