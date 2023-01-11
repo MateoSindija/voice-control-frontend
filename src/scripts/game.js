@@ -24,37 +24,37 @@ const finishCtx = canvas.getContext("2d");
 if (!url.includes("level")) {
   jsonUrl = "./src/json/practice.json";
 } else if (url.includes("level1.")) {
-  jsonUrl = "/src/json/level1.json";
+  jsonUrl = "../json/level1.json";
 } else if (url.includes("level2.")) {
-  jsonUrl = "/src/json/level2.json";
+  jsonUrl = "../json/level2.json";
 } else if (url.includes("level3.")) {
-  jsonUrl = "/src/json/level3.json";
+  jsonUrl = "../json/level3.json";
 } else if (url.includes("level4.")) {
-  jsonUrl = "/src/json/level4.json";
+  jsonUrl = "../json/level4.json";
 } else if (url.includes("level5.")) {
-  jsonUrl = "/src/json/level5.json";
+  jsonUrl = "../json/level5.json";
 } else if (url.includes("level6.")) {
-  jsonUrl = "/src/json/level6.json";
+  jsonUrl = "../json/level6.json";
 } else if (url.includes("level7.")) {
-  jsonUrl = "/src/json/level7.json";
+  jsonUrl = "../json/level7.json";
 } else if (url.includes("level8.")) {
-  jsonUrl = "/src/json/level8.json";
+  jsonUrl = "../json/level8.json";
 } else if (url.includes("level9.")) {
-  jsonUrl = "/src/json/level9.json";
+  jsonUrl = "../json/level9.json";
 } else if (url.includes("level10.")) {
-  jsonUrl = "/src/json/level10.json";
+  jsonUrl = "../json/level10.json";
 } else if (url.includes("level11.")) {
-  jsonUrl = "/src/json/level11.json";
+  jsonUrl = "../json/level11.json";
 } else if (url.includes("level12.")) {
-  jsonUrl = "/src/json/level12.json";
+  jsonUrl = "../json/level12.json";
 } else if (url.includes("level13.")) {
-  jsonUrl = "/src/json/level13.json";
+  jsonUrl = "../json/level13.json";
 } else if (url.includes("level14.")) {
-  jsonUrl = "/src/json/level14.json";
+  jsonUrl = "../json/level14.json";
 } else if (url.includes("level15.")) {
-  jsonUrl = "/src/json/level15.json";
+  jsonUrl = "../json/level15.json";
 } else if (url.includes("level16.")) {
-  jsonUrl = "/src/json/level16.json";
+  jsonUrl = "../json/level16.json";
 }
 
 export const character = {
