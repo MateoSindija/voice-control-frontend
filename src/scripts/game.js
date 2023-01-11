@@ -24,37 +24,37 @@ const finishCtx = canvas.getContext("2d");
 if (!url.includes("level")) {
   jsonUrl = "./src/json/practice.json";
 } else if (url.includes("level1.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level1.json";
+  jsonUrl = "/src/json/level1.json";
 } else if (url.includes("level2.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level2.json";
+  jsonUrl = "/src/json/level2.json";
 } else if (url.includes("level3.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level3.json";
+  jsonUrl = "/src/json/level3.json";
 } else if (url.includes("level4.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level4.json";
+  jsonUrl = "/src/json/level4.json";
 } else if (url.includes("level5.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level5.json";
+  jsonUrl = "/src/json/level5.json";
 } else if (url.includes("level6.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level6.json";
+  jsonUrl = "/src/json/level6.json";
 } else if (url.includes("level7.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level7.json";
+  jsonUrl = "/src/json/level7.json";
 } else if (url.includes("level8.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level8.json";
+  jsonUrl = "/src/json/level8.json";
 } else if (url.includes("level9.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level9.json";
+  jsonUrl = "/src/json/level9.json";
 } else if (url.includes("level10.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level10.json";
+  jsonUrl = "/src/json/level10.json";
 } else if (url.includes("level11.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level11.json";
+  jsonUrl = "/src/json/level11.json";
 } else if (url.includes("level12.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level12.json";
+  jsonUrl = "/src/json/level12.json";
 } else if (url.includes("level13.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level13.json";
+  jsonUrl = "/src/json/level13.json";
 } else if (url.includes("level14.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level14.json";
+  jsonUrl = "/src/json/level14.json";
 } else if (url.includes("level15.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level15.json";
+  jsonUrl = "/src/json/level15.json";
 } else if (url.includes("level16.")) {
-  jsonUrl = "http://127.0.0.1:5500/src/json/level16.json";
+  jsonUrl = "/src/json/level16.json";
 }
 
 export const character = {

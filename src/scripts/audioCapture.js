@@ -39,7 +39,7 @@ if (beginButton) {
 
     if (!userName) return;
 
-    location.href = "/src/levels/level1.html";
+    location.href = "./src/levels/level1.html";
   };
 }
 
