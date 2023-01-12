@@ -55,6 +55,38 @@ if (!url.includes("level")) {
   jsonUrl = "../json/level15.json";
 } else if (url.includes("level16.")) {
   jsonUrl = "../json/level16.json";
+} else if (url.includes("level17.")) {
+  jsonUrl = "../json/level17.json";
+} else if (url.includes("level18.")) {
+  jsonUrl = "../json/level18.json";
+} else if (url.includes("level19.")) {
+  jsonUrl = "../json/level19.json";
+} else if (url.includes("level20.")) {
+  jsonUrl = "../json/level20.json";
+} else if (url.includes("level21.")) {
+  jsonUrl = "../json/level21.json";
+} else if (url.includes("level22.")) {
+  jsonUrl = "../json/level22.json";
+} else if (url.includes("level23.")) {
+  jsonUrl = "../json/level23.json";
+} else if (url.includes("level24.")) {
+  jsonUrl = "../json/level24.json";
+} else if (url.includes("level25.")) {
+  jsonUrl = "../json/level25.json";
+} else if (url.includes("level26.")) {
+  jsonUrl = "../json/level26.json";
+} else if (url.includes("level27.")) {
+  jsonUrl = "../json/level27.json";
+} else if (url.includes("level28.")) {
+  jsonUrl = "../json/level28.json";
+} else if (url.includes("level29.")) {
+  jsonUrl = "../json/level29.json";
+} else if (url.includes("level30.")) {
+  jsonUrl = "../json/level30.json";
+} else if (url.includes("level31.")) {
+  jsonUrl = "../json/level31.json";
+} else if (url.includes("level32.")) {
+  jsonUrl = "../json/level32.json";
 }
 
 export const character = {
@@ -163,6 +195,8 @@ fetch(jsonUrl)
         isOver = true;
         isMovementByStepCalled = true;
         await document.querySelector("#stop").click();
+        if (url.includes("level"))
+          document.querySelector("#start").style.visibility = "hidden";
         timer = 0;
         characterIsMoving = false;
       }
@@ -176,6 +210,8 @@ fetch(jsonUrl)
         isOver = true;
         isMovementByStepCalled = true;
         await document.querySelector("#stop").click();
+        if (url.includes("level"))
+          document.querySelector("#start").style.visibility = "hidden";
         timer = 0;
       }
     };
@@ -224,7 +260,8 @@ const movementByStepTimer = (isMovementByStepCalled) => {
 export const characterMovementByStep = (voiceCommand) => {
   character.speed = 20;
   movementByStepTimer(isMovementByStepCalled);
-  currentVoiceCommand = voiceCommand;
+
+  if (voiceCommand !== "") currentVoiceCommand = voiceCommand;
 
   isMovementByStepCalled = false;
 
@@ -256,7 +293,7 @@ export const handleCountinousChange = (isContinuousChecked) => {
 export const characterMovementcontinuous = (voiceCommand) => {
   character.speed = 10;
 
-  currentVoiceCommand = voiceCommand;
+  if (voiceCommand !== "") currentVoiceCommand = voiceCommand;
 
   if (voiceCommand === "up") {
     currentVoiceCommand = voiceCommand;

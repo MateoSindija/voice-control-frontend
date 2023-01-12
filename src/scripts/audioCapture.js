@@ -114,7 +114,13 @@ if ("webkitSpeechRecognition" in window) {
     setIsMovementByStepCalled();
 
     if (checkboxcontinuous) checkboxcontinuous.disabled = false;
-    if (timerDiv && url.includes("level") && currentSubjectName && isOver) {
+    if (
+      timerDiv &&
+      url.includes("level") &&
+      currentSubjectName &&
+      isOver &&
+      timer !== 0
+    ) {
       try {
         await addDoc(collection(db, "test-results"), {
           userName: currentSubjectName,
@@ -133,7 +139,6 @@ if ("webkitSpeechRecognition" in window) {
     document.querySelector("#start").disabled = false;
     microphoneSvg.style.display = "none";
     if (labelContinuous) labelContinuous.style.color = "black";
-    console.log("tu");
   };
 } else {
   console.log("Speech Recognition Not Available");
