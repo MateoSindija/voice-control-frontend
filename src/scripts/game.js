@@ -109,6 +109,8 @@ const borders = {
   bottom: canvas.height - character.radius,
 };
 
+console.log(jsonUrl);
+
 fetch(jsonUrl)
   .then((response) => response.json())
   .then((json) => {
