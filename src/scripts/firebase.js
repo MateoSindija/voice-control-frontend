@@ -13,12 +13,12 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAW_-ZFoTtF2B0OkYNlhOj62PQU_rN6qC8",
-  authDomain: "voice-control-bfd3f.firebaseapp.com",
-  projectId: "voice-control-bfd3f",
-  storageBucket: "voice-control-bfd3f.appspot.com",
-  messagingSenderId: "496149817440",
-  appId: "1:496149817440:web:bf20427e688df71f3bfb05",
+  apiKey: "FirebaseApiKey",
+  authDomain: "authDomain",
+  projectId: "projectId",
+  storageBucket: "storageBucket",
+  messagingSenderId: "messagingSenderId",
+  appId: "1appId",
 };
 
 // Initialize Firebase

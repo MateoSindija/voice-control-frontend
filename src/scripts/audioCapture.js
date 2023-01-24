@@ -58,11 +58,11 @@ if ("webkitSpeechRecognition" in window) {
         transcript = event.results[i][0].transcript;
 
         if (
-          transcript.trim() === "down" ||
-          transcript.trim() === "up" ||
-          transcript.trim() === "left" ||
-          transcript.trim() === "right" ||
-          transcript.trim() === "stop"
+          transcript.trim().split(" ").pop() === "down" ||
+          transcript.trim().split(" ").pop() === "up" ||
+          transcript.trim().split(" ").pop() === "left" ||
+          transcript.trim().split(" ").pop() === "right" ||
+          transcript.trim().split(" ").pop() === "stop"
         )
           wordCounter++;
       }
@@ -114,24 +114,24 @@ if ("webkitSpeechRecognition" in window) {
     setIsMovementByStepCalled();
 
     if (checkboxcontinuous) checkboxcontinuous.disabled = false;
-    if (
-      timerDiv &&
-      url.includes("level") &&
-      currentSubjectName &&
-      isOver &&
-      timer !== 0
-    ) {
-      try {
-        await addDoc(collection(db, "test-results"), {
-          userName: currentSubjectName,
-          timer: timer,
-          level: url,
-          wordCounter: wordCounter,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    // if (
+    //   timerDiv &&
+    //   url.includes("level") &&
+    //   currentSubjectName &&
+    //   isOver &&
+    //   timer !== 0
+    // ) {
+    //   try {
+    //     await addDoc(collection(db, "test-results"), {
+    //       userName: currentSubjectName,
+    //       timer: timer,
+    //       level: url,
+    //       wordCounter: wordCounter,
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     wordCounter = 0;
     resetTimer();
