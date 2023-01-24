@@ -122,7 +122,12 @@ fetch(jsonUrl)
 
     finish.x = levelData.x;
     finish.y = levelData.y;
-    finish.size = levelData.size;
+    if (!url.includes("level")) {
+      let size = [70, 100];
+      finish.size = size[Math.round(Math.random())];
+    } else {
+      finish.size = levelData.size;
+    }
 
     const isCollision = () => {
       let distX = Math.abs(character.x - finish.x - finish.size / 2);
